@@ -9,9 +9,15 @@ import { FirebaseToken } from './FirebaseToken.ts';
 import { Notificacao } from './Notificação.ts';
 import dotenv from 'dotenv'
 dotenv.config()
-export const sequelize = new Sequelize('web mensagens', process.env.USER, process.env.PASSWORD, {
-  host: 'localhost',
+
+export const sequelize = new Sequelize(process.env.DATABASE_URL!, {
   dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false 
+    }
+  }
 });
 
 User.initialize(sequelize);
